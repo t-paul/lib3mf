@@ -297,7 +297,11 @@ endif()
 if(NOT DEFINED LIB3MF_TESTS)
 	set(LIB3MF_TESTS TRUE)
 endif()
+if(NOT DEFINED LIB3MF_BUILD_TYPE)
+	set(LIB3MF_BUILD_TYPE SHARED)
+endif()
 message("LIB3MF_TESTS ... " ${LIB3MF_TESTS})
+message("LIB3MF_BUILD_TYPE ... " ${LIB3MF_BUILD_TYPE})
 
 
 #########################################################
@@ -335,7 +339,7 @@ endif()
 
 #########################################################
 # shared library
-add_library(${PROJECT_NAME} SHARED ${SRCS} ${VERSION_FILES_OUTPUTLOCATION})
+add_library(${PROJECT_NAME} ${LIB3MF_BUILD_TYPE} ${SRCS} ${VERSION_FILES_OUTPUTLOCATION})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Include)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/Include)
 
@@ -344,7 +348,7 @@ if (WIN32)
 	# platform specific tests
 	if(LIB3MF_TESTS)
 		SET(UNITTEST_NAME "${PROJECT_NAME}unittests")
-		add_library(${UNITTEST_NAME} SHARED ${SRCS_MANAGED_TEST})
+		add_library(${UNITTEST_NAME} ${LIB3MF_BUILD_TYPE} ${SRCS_MANAGED_TEST})
 		target_include_directories(${UNITTEST_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Include)
 		target_include_directories(${UNITTEST_NAME} PUBLIC "${VCINSTALLDIR}/../../../UnitTest/include")
 		target_include_directories(${UNITTEST_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/Include)
